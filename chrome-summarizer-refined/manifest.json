@@ -1,0 +1,39 @@
+{
+    "manifest_version": 3,
+    "name": "Quick Summarizer Refined",
+    "version": "1.0",
+    "description": "Right-click to summarize selected text using AI.",
+    "permissions": ["contextMenus", "scripting", "activeTab"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "host_permissions": ["<all_urls>"],
+    "action": {
+      "default_icon": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+      }
+    },
+    "icons": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    },
+    "content_scripts": [
+  {
+    "matches": ["<all_urls>"],
+    "js": ["content.js", "Readability.js"],
+    "run_at": "document_idle"
+  }
+],
+    "commands": {
+  "trigger-summary": {
+    "suggested_key": {
+      "default": "Ctrl+Shift+K"
+    },
+    "description": "Trigger summarization"
+  }
+}
+}
+  

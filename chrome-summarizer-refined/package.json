@@ -1,0 +1,24 @@
+{
+  "name": "chrome-summarizer-refined",
+  "version": "1.0.0",
+  "description": "",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mehraverse/chrome-summarizer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mehraverse/chrome-summarizer/issues"
+  },
+  "homepage": "https://github.com/mehraverse/chrome-summarizer#readme",
+  "dependencies": {
+    "@mozilla/readability": "^0.6.0",
+    "jsdom": "^26.0.0"
+  }
+}
