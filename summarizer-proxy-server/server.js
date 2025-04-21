@@ -60,7 +60,7 @@ async function callOpenAI(messages) {
 
 // Summarization endpoint
 app.post("/summarize", async (req, res) => {
-  const { text } = req.body;
+  const { text, isSelection } = req.body; // Add isSelection parameter
 
   if (!text || text.length < 100) {
     return res.status(400).json({ error: "Text too short for summarization" });
@@ -70,13 +70,18 @@ app.post("/summarize", async (req, res) => {
     const messages = [
       {
         role: "system",
-        content: `You are a highly efficient summarizer. Create concise, informative summaries that capture the main points. 
-        Important: Wrap key phrases, important concepts, and critical points in <mark> tags. For example: "The study found that <mark>remote work increased productivity significantly</mark>."
-        Use marks sparingly - only highlight the most important 3-4 pieces of information per paragraph.`,
+        content: isSelection
+          ? "Create an ultra-concise summary. Be direct and factual. No introductory phrases."
+          : `You are a highly efficient summarizer. Create concise, informative summaries that capture the main points. 
+             Important: Wrap key phrases, important concepts, and critical points in <mark> tags. Use marks sparingly.`,
       },
       {
         role: "user",
-        content: `Please summarize this text in 1-2 short paragraphs:\n\n${text}`,
+        content: `${
+          isSelection
+            ? "Summarize in 1-2 sentence"
+            : "Summarize in 1-2 paragraphs"
+        }:\n\n${text}`,
       },
     ];
 
