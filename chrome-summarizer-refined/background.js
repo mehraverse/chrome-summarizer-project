@@ -1,11 +1,26 @@
+// Add this helper function at the top
+function truncateText(text) {
+  // Approximate token count (rough estimate: 4 chars = 1 token)
+  const maxChars = 1024 * 4;
+  if (text.length <= maxChars) return text;
+
+  // Try to break at a sentence
+  const truncated = text.slice(0, maxChars);
+  const lastPeriod = truncated.lastIndexOf(".");
+  return lastPeriod > 0 ? truncated.slice(0, lastPeriod + 1) : truncated;
+}
+
 async function fetchSummaryFromHuggingFace(text) {
   try {
+    // Truncate text before sending to API
+    const truncatedText = truncateText(text);
+
     const response = await fetch("http://localhost:3000/summarize", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ text: text }),
+      body: JSON.stringify({ text: truncatedText }),
     });
 
     const data = await response.json();
@@ -17,7 +32,8 @@ async function fetchSummaryFromHuggingFace(text) {
     }
   } catch (error) {
     console.error("Error fetching summary:", error);
-    return "Error fetching summary.";
+    // Optionally, notify via runtime.sendMessage if needed.
+    return "Error: Cannot fetch summary at the moment.";
   }
 }
 
@@ -31,10 +47,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 chrome.runtime.onInstalled.addListener(() => {
+  // Existing context menu for selection
   chrome.contextMenus.create({
     id: "summarize-text",
     title: "Summarize",
     contexts: ["selection"],
+  });
+  // New context menu for entire page
+  chrome.contextMenus.create({
+    id: "summarize-entire-page",
+    title: "Summarize entire page",
+    contexts: ["page"],
   });
 });
 
@@ -58,6 +81,33 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         console.error("Error summarizing text:", error);
       });
   }
+  if (info.menuItemId === "summarize-entire-page") {
+    // Execute a function in the tab that calls the already exposed triggerPrefetchedSummary
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: () => {
+        if (window.triggerPrefetchedSummary) {
+          window.triggerPrefetchedSummary();
+        } else {
+          console.error("triggerPrefetchedSummary is not defined.");
+        }
+      },
+    });
+  }
+});
+
+// Add action button click handler
+chrome.action.onClicked.addListener((tab) => {
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    function: () => {
+      if (window.triggerPrefetchedSummary) {
+        window.triggerPrefetchedSummary();
+      } else {
+        console.error("triggerPrefetchedSummary is not defined.");
+      }
+    },
+  });
 });
 
 function showLoadingBox() {
@@ -138,6 +188,19 @@ function showSummaryBox(summary, selectedText) {
   box.style.overflowY = "auto";
   box.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
 
+  // Add highlight styles
+  const style = document.createElement("style");
+  style.textContent = `
+    #summary-box mark {
+      background: linear-gradient(120deg, rgba(255, 242, 0, 0.4) 0%, rgba(255, 242, 0, 0.2) 100%);
+      padding: 0 2px;
+      border-radius: 2px;
+      color: inherit;
+      font-weight: 500;
+    }
+  `;
+  document.head.appendChild(style);
+
   // Create the unordered list for bullet points
   const ul = document.createElement("ul");
   ul.style.listStyleType = "disc"; // Bullet points (disc style)
@@ -149,7 +212,7 @@ function showSummaryBox(summary, selectedText) {
   points.forEach((point) => {
     if (point.trim()) {
       const li = document.createElement("li");
-      li.innerHTML = point.trim();
+      li.innerHTML = point.trim(); // Using innerHTML to parse the <mark> tags
       ul.appendChild(li);
     }
   });
