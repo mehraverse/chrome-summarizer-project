@@ -5,7 +5,7 @@ Smart AI-powered Chrome extension that summarizes web articles and selected text
 ## Features
 
 - 🔔 "Summary Available" notification for compatible pages
-- 💨 Instant page summarization via icon click or Cmd/Ctrl + Shift + K
+- 💨 Manual page summarization via icon click or Cmd/Ctrl + Shift + K
 - 🔍 Quick summaries for selected text via right-click menu
 - 💬 Interactive Q&A about the article content
 - ⚡️ Smart caching for faster performance
@@ -21,7 +21,7 @@ Smart AI-powered Chrome extension that summarizes web articles and selected text
 
 - Click "Summary Available" to see summary on compatible pages
 - Select text and right-click to summarize selection
-- Use Cmd/Ctrl + Shift + K shortcut to toggle summary page
+- Use Cmd/Ctrl + Shift + K shortcut or click extension button to toggle summary page
 - Ask questions about the article in chat interface
 
 ## Tech Stack
