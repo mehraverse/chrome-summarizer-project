@@ -16,4 +16,4 @@ Quick Summarizer Chrome Extension respects your privacy and is committed to prot
 
 ## Contact
 
-For questions about this privacy policy, contact [abhishekmehra1010@email.com]
+For questions about this privacy policy, contact [abhishekmehra1010@gmail.com]
