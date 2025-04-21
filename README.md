@@ -30,7 +30,7 @@ Chrome Extension (Manifest V3), Node.js/Express, OpenAI GPT API, Mozilla Readabi
 
 ## Screenshots
 
-![Indication that Summary Mode is available](screenshots/indication.png)
+![Indication that Summary Mode is available](screenshots/summary-indication.png)
 ![Summary Mode](screenshots/summary-page.png)
 
 ## License
