@@ -13,7 +13,9 @@ Smart AI-powered Chrome extension that summarizes web articles and selected text
 ## Setup
 
 1. Clone repo and run `npm install` in summarizer-proxy-server
-2. Add OpenAI API key to `.env` file: OPENAI_API_KEY="your_key_here"
+2. Add OpenAI API key to `.env` file:
+   DEV_MODE="false"
+   OPENAI_API_KEY="your_key_here"
 3. Start server: `npm start`
 4. Load extension in Chrome from chrome://extensions (Developer mode)
 
