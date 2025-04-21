@@ -5,7 +5,6 @@ Quick Summarizer Chrome Extension respects your privacy and is committed to prot
 ## Information Collection
 
 - We do not collect any personal information
-- Selected text and page content is processed locally
 - API calls are made only to summarize content
 - No user data is stored on our servers
 
