@@ -28,6 +28,11 @@ Smart AI-powered Chrome extension that summarizes web articles and selected text
 
 Chrome Extension (Manifest V3), Node.js/Express, OpenAI GPT API, Mozilla Readability
 
+## Screenshots
+
+![Indication that Summary Mode is available](screenshots/indication.png)
+![Summary Mode](screenshots/summary-page.png)
+
 ## License
 
 MIT
